@@ -461,6 +461,42 @@ def summarize(values: list[float]) -> dict[str, float]:
     }
 
 
+def privacy_metadata(
+    epsilon: float,
+    label_mode: str,
+) -> dict[str, object]:
+    if label_mode == "true":
+        return {
+            "pipeline_version": "nonprivate-diagnostic",
+            "privacy_claim": "none",
+            "topology_source": "released_graph",
+            "training_label_source": "true_labels",
+            "separate_label_release": False,
+            "postprocessing": [
+                "Jaccard denoising",
+                "topology recomputation",
+                "F3 training",
+            ],
+        }
+    return {
+        "pipeline_version": "p1-postrelease-f3-v1",
+        "privacy_claim": "edge-level DP",
+        "privacy_unit": "one undirected edge",
+        "release_epsilon": epsilon,
+        "release_delta": 0.0,
+        "topology_source": "released_graph",
+        "training_label_source": "released_graph_train_bits",
+        "separate_label_release": False,
+        "postprocessing": [
+            "Jaccard denoising",
+            "topology recomputation",
+            "label debiasing",
+            "F3 training",
+        ],
+        "postprocessing_epsilon": 0.0,
+    }
+
+
 def run(args: argparse.Namespace) -> dict[str, object]:
     graph, raw_features = load_graph_data(args.data)
     true_edges = graph_edges(graph)
@@ -661,6 +697,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "topology_dimension": args.topology_dimension,
         "selection": args.selection,
         "label_mode": args.label_mode,
+        "privacy": privacy_metadata(args.epsilon, args.label_mode),
         "label_counts": {
             name: {
                 "total": int(len(values)),

@@ -8,6 +8,7 @@ import numpy as np
 from src.postrelease_lp import (
     canonical,
     posterior_and_weights,
+    privacy_metadata,
     split_bucket,
     topology_features,
 )
@@ -42,6 +43,19 @@ class CoreTests(unittest.TestCase):
         self.assertTrue(
             math.isclose(float(features[0, 8]), 0.0, abs_tol=1e-8)
         )
+
+    def test_main_pipeline_has_no_separate_label_release(self) -> None:
+        metadata = privacy_metadata(3.5, "released")
+        self.assertEqual(
+            metadata["training_label_source"],
+            "released_graph_train_bits",
+        )
+        self.assertFalse(metadata["separate_label_release"])
+        self.assertEqual(metadata["postprocessing_epsilon"], 0.0)
+
+    def test_true_label_diagnostic_has_no_privacy_claim(self) -> None:
+        metadata = privacy_metadata(3.5, "true")
+        self.assertEqual(metadata["privacy_claim"], "none")
 
 
 if __name__ == "__main__":

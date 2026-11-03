@@ -25,6 +25,16 @@ Jaccard denoising, topology recomputation, label debiasing, model
 training, fusion, and evaluation are post-processing of that output
 and public information.
 
+The F3 model's training bits are obtained by querying
+`pair in released_edges` on the already released graph. This is not a
+second label-release mechanism. The output metadata records the label
+source and a post-processing epsilon of zero.
+
+If a standalone label-RR model releases training labels separately,
+that is a different scenario and must not be added to the graph-release
+pipeline unless both outputs are actually published and jointly
+accessible.
+
 ## Outside the current claim
 
 - node-level DP;

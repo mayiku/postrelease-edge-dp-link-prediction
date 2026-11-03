@@ -147,6 +147,8 @@ This project currently claims **edge-level DP only**:
   nonprivate same-statistic reference.
 - [`docs/reproduce.md`](docs/reproduce.md): install and run commands.
 - [`docs/method.md`](docs/method.md): release interface and model.
+- [`docs/pipelines.md`](docs/pipelines.md): versioned result semantics
+  and baseline labels.
 - [`docs/results.md`](docs/results.md): full result tables.
 - [`docs/privacy.md`](docs/privacy.md): threat model and accounting.
 - [`docs/mechanism.md`](docs/mechanism.md): ablations and interpretation.
