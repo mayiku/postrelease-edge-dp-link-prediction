@@ -1,0 +1,3 @@
+dataset,split,releases,public_auc,fixed_fusion_auc,placebo_auc,joint_auc,joint_minus_public,joint_minus_fixed_fusion,joint_minus_placebo,joint_wins_public,joint_wins_fixed_fusion,joint_wins_placebo
+cora,3,100,0.740893082,0.488398323,0.734713836,0.838942348,0.097589099,0.350808176,0.104644654,100,100,100
+citeseer,3,100,0.826649108,0.529075658,0.824214779,0.871436393,0.043968925,0.341878652,0.047095402,100,100,100

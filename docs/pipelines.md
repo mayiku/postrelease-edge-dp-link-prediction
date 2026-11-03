@@ -47,6 +47,16 @@ P1 changes the post-processing model class. It does not reuse or
 reverse the P0 result. The Citeseer behavior changes because the P1
 model learns a feature-dependent topology contribution.
 
+Fresh pre-registered P1 splits:
+
+| Dataset | Split | Public | Fixed fusion | Joint | Runs joint > fixed |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Cora | 3 | 0.7409 | 0.4884 | 0.8389 | 100/100 |
+| Citeseer | 3 | 0.8266 | 0.5291 | 0.8714 | 100/100 |
+
+The P1 confirmatory run used 100 independent releases per dataset and
+passed its absolute, relative, and workload-isolation gates.
+
 ## Baseline labels
 
 | Baseline | Training labels | Privacy state |

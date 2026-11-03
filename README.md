@@ -42,7 +42,7 @@ features is therefore post-processing of the edge-DP output.
 
 ## Headline results
 
-Median AUC over independent edge-DP releases:
+Exploratory median AUC over independent edge-DP releases:
 
 | Dataset | Split | Public only | Joint F3 | Topology placebo | Joint - placebo |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -56,6 +56,20 @@ Median AUC over independent edge-DP releases:
 
 The joint model beats the public-only and placebo models in all
 `70 / 70` measured releases across these seven dataset/split settings.
+
+### Confirmatory P1 results
+
+Fresh, pre-registered splits with 100 releases each:
+
+| Dataset | Split | Public | Fixed fusion | Placebo | Joint | Joint-public | Joint-placebo |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Cora | 3 | 0.7409 | 0.4884 | 0.7347 | 0.8389 | +0.0976 | +0.1046 |
+| Citeseer | 3 | 0.8266 | 0.5291 | 0.8242 | 0.8714 | +0.0440 | +0.0471 |
+
+Joint beat public-only, matched fixed fusion, and placebo in
+`100 / 100` releases on both datasets. Workload train/valid/test
+intersections were zero, and test target bits were not used in F3
+training.
 
 The public features alone are weak on BlogCatalog (`AUC 0.5285`) but
 strong on Citeseer (`AUC 0.7867-0.8152`). The released topology adds

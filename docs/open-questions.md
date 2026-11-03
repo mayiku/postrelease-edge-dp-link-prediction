@@ -2,12 +2,17 @@
 
 ## Must resolve before a proposal
 
+Completed: P1 confirmation on fresh Cora/Citeseer salt-3 splits passed
+100/100 release gates on each dataset.
+
 1. Compare against DPLP and PriDyG under a common workload, privacy
    unit, and evaluation protocol. PriDyG has no public implementation
    in the checked surface; any DPLP adaptation must be labelled
    DPLP-style rather than official.
-2. Add an executable post-release data-path audit that fails if model
-   code touches the original graph.
+2. Split release/training/evaluation into separate processes whose file
+   permissions enforce the post-release boundary. Current output-level
+   workload and label-source audits pass, but the implementation still
+   lives in one process.
 3. Measure candidate-domain coverage and its effect on utility.
 4. Improve low-budget graph release. Oracle-label diagnostics show
    released topology loses most useful structure on Cora/Citeseer at
