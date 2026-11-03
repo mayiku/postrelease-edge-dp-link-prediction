@@ -33,6 +33,18 @@ The command runs three paired models on every release:
 2. public + released topology F3;
 3. public + row-shuffled topology placebo F3.
 
+Optional diagnostics:
+
+```bash
+# Select a checkpoint using only bits already released by the DP graph
+python -m src.postrelease_lp ... --selection released-validation
+
+# Nonprivate upper bound using true training labels
+python -m src.postrelease_lp ... --label-mode true
+```
+
+`--label-mode true` is diagnostic only and is not a private method.
+
 ## Tests
 
 ```bash

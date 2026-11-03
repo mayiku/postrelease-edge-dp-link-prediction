@@ -67,13 +67,20 @@ Five-release probes at lower budgets show a graph-dependent boundary:
 
 | Dataset | Split | epsilon=1 | epsilon=2 | epsilon=3.5 |
 | --- | ---: | --- | --- | --- |
-| Cora | 2 | fail | pass | pass |
+| Cora | 2 | fail | relative-only, unusable | pass |
 | Citeseer | 1 | fail | fail | pass |
 | BlogCatalog | 0 | pass | not needed | pass |
 
 At `epsilon=1`, Cora and Citeseer public-only learning also collapses
-because released labels are much noisier. At `epsilon=2`, Cora
-recovers while Citeseer remains at its boundary.
+because released labels and topology are much noisier. At `epsilon=2`,
+Cora meets the relative gate but remains far below usable absolute
+utility (`joint AUC 0.540`). At `epsilon=3.5`, all settings are usable.
+
+Oracle-label diagnostics isolate the bottleneck: at `epsilon=1`, giving
+the model true target labels restores public-only learning, but
+released topology adds almost no signal on Cora/Citeseer. BlogCatalog
+retains structural signal. Low-budget failure is therefore primarily
+information loss, not only checkpoint selection.
 
 ## Why a learned post-release model?
 

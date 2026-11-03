@@ -49,7 +49,7 @@ Five independent releases were used per lower-budget probe.
 | Dataset | Split | epsilon | Public | Joint | Placebo | Joint-placebo | Gate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
 | Cora | 2 | 1.0 | 0.29690 | 0.33594 | 0.31698 | +0.00387 | fail |
-| Cora | 2 | 2.0 | 0.38844 | 0.54033 | 0.40758 | +0.13705 | pass |
+| Cora | 2 | 2.0 | 0.38844 | 0.54033 | 0.40758 | +0.13705 | relative-only |
 | Cora | 2 | 3.5 | 0.72313 | 0.84204 | 0.71684 | +0.12474 | pass |
 | Citeseer | 1 | 1.0 | 0.29295 | 0.40550 | 0.34406 | +0.03918 | fail |
 | Citeseer | 1 | 2.0 | 0.77209 | 0.77000 | 0.75804 | +0.01196 | fail |
@@ -57,5 +57,31 @@ Five independent releases were used per lower-budget probe.
 | BlogCatalog | 0 | 1.0 | 0.52451 | 0.62668 | 0.52157 | +0.08919 | pass |
 | BlogCatalog | 0 | 3.5 | 0.52846 | 0.87073 | 0.53257 | +0.33722 | pass |
 
-Low-budget failure can involve both information loss in randomized
-response and instability of the debiased-label training objective.
+The relative gate is insufficient at low absolute utility. Cora at
+`epsilon=2` meets the relative margin while retaining only `0.540`
+joint AUC, so it is not counted as a practical pass.
+
+## Low-budget diagnosis
+
+Released-validation checkpoint selection at `epsilon=1`:
+
+| Dataset | Joint | Placebo | Joint-placebo | Joint > placebo |
+| --- | ---: | ---: | ---: | ---: |
+| Cora | 0.38875 | 0.32240 | +0.04876 | 5/5 |
+| Citeseer | 0.40710 | 0.43247 | -0.02537 | 2/5 |
+| BlogCatalog | 0.59203 | 0.51550 | +0.08160 | 4/5 |
+
+Validation selection does not restore usable Cora/Citeseer utility.
+
+Nonprivate true-label diagnostic at `epsilon=1`:
+
+| Dataset | Public | Joint | Placebo | Joint-placebo |
+| --- | ---: | ---: | ---: | ---: |
+| Cora | 0.73337 | 0.73067 | 0.71834 | +0.00828 |
+| Citeseer | 0.79003 | 0.78832 | 0.78840 | -0.00108 |
+| BlogCatalog | 0.53281 | 0.66217 | 0.53273 | +0.12577 |
+
+At `epsilon=1`, Cora/Citeseer released topology has little useful
+structure even when target labels are supplied to the diagnostic.
+BlogCatalog still retains structure. The dominant low-budget failure
+is therefore information loss in the released graph.

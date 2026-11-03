@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 from collections import defaultdict
+from copy import deepcopy
 from pathlib import Path
 
 import numpy as np
@@ -354,6 +355,10 @@ def train_model(
     sample_weights: np.ndarray,
     seed: int,
     model_kind: str,
+    selection: str = "fixed",
+    validation_features: np.ndarray | None = None,
+    validation_target: np.ndarray | None = None,
+    validation_weights: np.ndarray | None = None,
 ) -> np.ndarray:
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
@@ -372,7 +377,24 @@ def train_model(
     test_x = torch.from_numpy(test_features)
     target_tensor = torch.from_numpy(target)
     weight_tensor = torch.from_numpy(sample_weights)
-    for _ in range(2000):
+    validation_x = (
+        torch.from_numpy(validation_features)
+        if validation_features is not None
+        else None
+    )
+    validation_target_tensor = (
+        torch.from_numpy(validation_target)
+        if validation_target is not None
+        else None
+    )
+    validation_weight_tensor = (
+        torch.from_numpy(validation_weights)
+        if validation_weights is not None
+        else None
+    )
+    best_loss = math.inf
+    best_state = None
+    for step in range(1, 2001):
         indices = rng.choice(
             len(train_features),
             size=128,
@@ -387,6 +409,30 @@ def train_model(
         loss = (losses * weight_tensor[indices]).mean()
         loss.backward()
         optimizer.step()
+        if (
+            selection == "released-validation"
+            and validation_x is not None
+            and validation_target_tensor is not None
+            and validation_weight_tensor is not None
+            and (step % 100 == 0 or step == 2000)
+        ):
+            with torch.no_grad():
+                validation_logits = model(validation_x).view(-1)
+                validation_losses = (
+                    F.softplus(validation_logits)
+                    - validation_target_tensor * validation_logits
+                )
+                current_loss = float(
+                    (
+                        validation_losses
+                        * validation_weight_tensor
+                    ).mean()
+                )
+            if current_loss < best_loss:
+                best_loss = current_loss
+                best_state = deepcopy(model.state_dict())
+    if selection == "released-validation" and best_state is not None:
+        model.load_state_dict(best_state)
     model.eval()
     outputs = []
     with torch.no_grad():
@@ -481,22 +527,46 @@ def run(args: argparse.Namespace) -> dict[str, object]:
                 graph.shape[0],
                 args.incidence_cap,
             )[:, : args.topology_dimension]
-            for name in ("train", "test")
+            for name in ("train", "valid", "test")
         }
         train_bits = np.asarray(
             [pair in released for pair in workload["train"]],
             dtype=np.float32,
         )
-        posterior, weights = posterior_and_weights(
-            train_bits,
-            args.epsilon,
+        if args.label_mode == "true":
+            posterior = true_labels["train"].copy()
+            weights = np.where(
+                posterior > 0,
+                10.0,
+                1.0,
+            ).astype(np.float32)
+        else:
+            posterior, weights = posterior_and_weights(
+                train_bits,
+                args.epsilon,
+            )
+        valid_bits = np.asarray(
+            [pair in released for pair in workload["valid"]],
+            dtype=np.float32,
         )
+        if args.label_mode == "true":
+            valid_posterior = true_labels["valid"].copy()
+            valid_weights = np.where(
+                valid_posterior > 0,
+                10.0,
+                1.0,
+            ).astype(np.float32)
+        else:
+            valid_posterior, valid_weights = posterior_and_weights(
+                valid_bits,
+                args.epsilon,
+            )
         joint = {
             name: np.concatenate(
                 [public[name], topology[name]],
                 axis=1,
             )
-            for name in ("train", "test")
+            for name in ("train", "valid", "test")
         }
         public_scores = train_model(
             public["train"],
@@ -505,6 +575,10 @@ def run(args: argparse.Namespace) -> dict[str, object]:
             weights,
             release_seed + 201,
             "f3",
+            selection=args.selection,
+            validation_features=public["valid"],
+            validation_target=valid_posterior,
+            validation_weights=valid_weights,
         )
         joint_scores = train_model(
             joint["train"],
@@ -513,7 +587,14 @@ def run(args: argparse.Namespace) -> dict[str, object]:
             weights,
             release_seed + 201,
             "f3",
+            selection=args.selection,
+            validation_features=joint["valid"],
+            validation_target=valid_posterior,
+            validation_weights=valid_weights,
         )
+        valid_permutation = np.random.default_rng(
+            args.placebo_seed - 2000 + 101 * draw
+        ).permutation(len(workload["valid"]))
         train_permutation = np.random.default_rng(
             args.placebo_seed - 1000 + 101 * draw
         ).permutation(len(workload["train"]))
@@ -525,6 +606,13 @@ def run(args: argparse.Namespace) -> dict[str, object]:
                 [
                     public["train"],
                     topology["train"][train_permutation],
+                ],
+                axis=1,
+            ),
+            "valid": np.concatenate(
+                [
+                    public["valid"],
+                    topology["valid"][valid_permutation],
                 ],
                 axis=1,
             ),
@@ -540,6 +628,10 @@ def run(args: argparse.Namespace) -> dict[str, object]:
             weights,
             release_seed + 201,
             "f3",
+            selection=args.selection,
+            validation_features=placebo["valid"],
+            validation_target=valid_posterior,
+            validation_weights=valid_weights,
         )
         run_result = {
             "draw": draw,
@@ -567,6 +659,8 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "delta": 0.0,
         "release_draws": args.release_draws,
         "topology_dimension": args.topology_dimension,
+        "selection": args.selection,
+        "label_mode": args.label_mode,
         "label_counts": {
             name: {
                 "total": int(len(values)),
@@ -622,6 +716,16 @@ def parse_args() -> argparse.Namespace:
         type=int,
         choices=[8, 9],
         default=8,
+    )
+    parser.add_argument(
+        "--selection",
+        choices=["fixed", "released-validation"],
+        default="fixed",
+    )
+    parser.add_argument(
+        "--label-mode",
+        choices=["released", "true"],
+        default="released",
     )
     parser.add_argument("--base-seed", type=int, default=13000)
     parser.add_argument("--placebo-seed", type=int, default=22000)

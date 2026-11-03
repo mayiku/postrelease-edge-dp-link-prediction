@@ -74,6 +74,10 @@ Architecture and optimization:
 No private validation or test information is used for checkpoint
 selection.
 
+An optional `released-validation` selector is available for
+diagnostics. It chooses a checkpoint using only validation bits already
+released by the DP mechanism, so it remains post-processing.
+
 ## Confirmed simplification
 
 Mechanism ablations show that feature 8 is redundant. The next

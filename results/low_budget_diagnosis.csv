@@ -1,0 +1,9 @@
+diagnostic,dataset,split,epsilon,public_auc,joint_auc,placebo_auc,joint_minus_placebo,joint_above_placebo
+released_validation,cora,2,1.0,0.294226896,0.388748962,0.322395211,0.048762708,5
+released_validation,citeseer,1,1.0,0.292948617,0.407100869,0.432472650,-0.025371781,2
+released_validation,blogcatalog,0,1.0,0.524910441,0.592034232,0.515496001,0.081595221,4
+oracle_true_labels,cora,2,1.0,0.733371339,0.730665941,0.718336717,0.008281059,4
+oracle_true_labels,citeseer,1,1.0,0.790027315,0.788322406,0.788396231,-0.001083160,2
+oracle_true_labels,blogcatalog,0,1.0,0.532807707,0.662168400,0.532732497,0.125766559,5
+oracle_true_labels,cora,2,2.0,0.733371339,0.744028063,0.726798533,0.025391409,5
+oracle_true_labels,citeseer,1,2.0,0.790027315,0.796196367,0.787409967,0.011391059,5
