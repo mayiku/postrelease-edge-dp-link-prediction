@@ -61,6 +61,20 @@ The public features alone are weak on BlogCatalog (`AUC 0.5285`) but
 strong on Citeseer (`AUC 0.7867-0.8152`). The released topology adds
 signal in both regimes.
 
+## Privacy-utility boundary
+
+Five-release probes at lower budgets show a graph-dependent boundary:
+
+| Dataset | Split | epsilon=1 | epsilon=2 | epsilon=3.5 |
+| --- | ---: | --- | --- | --- |
+| Cora | 2 | fail | pass | pass |
+| Citeseer | 1 | fail | fail | pass |
+| BlogCatalog | 0 | pass | not needed | pass |
+
+At `epsilon=1`, Cora and Citeseer public-only learning also collapses
+because released labels are much noisier. At `epsilon=2`, Cora
+recovers while Citeseer remains at its boundary.
+
 ## Why a learned post-release model?
 
 A fixed `0.75 * topology_rank + 0.25 * public_rank` fusion passed on
@@ -140,5 +154,6 @@ artifacts are not redistributed in this repository.
 1. Compare against DPLP and PriDyG under a common measurement protocol.
 2. Audit the post-release data path so production code cannot read the
    raw graph.
-3. Complete the research proposal after the baseline and privacy
+3. Separate low-budget information loss from training instability.
+4. Complete the research proposal after the baseline and privacy
    closure are stable.

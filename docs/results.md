@@ -41,3 +41,21 @@ The original fixed rank fusion was:
 It passed on Cora split 2 (`0.7451` vs `0.7007`) but failed on
 Citeseer split 1 (`0.7025` vs `0.7869`). The post-release model
 removes this regime failure by learning the topology contribution.
+
+## Lower-budget boundary
+
+Five independent releases were used per lower-budget probe.
+
+| Dataset | Split | epsilon | Public | Joint | Placebo | Joint-placebo | Gate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| Cora | 2 | 1.0 | 0.29690 | 0.33594 | 0.31698 | +0.00387 | fail |
+| Cora | 2 | 2.0 | 0.38844 | 0.54033 | 0.40758 | +0.13705 | pass |
+| Cora | 2 | 3.5 | 0.72313 | 0.84204 | 0.71684 | +0.12474 | pass |
+| Citeseer | 1 | 1.0 | 0.29295 | 0.40550 | 0.34406 | +0.03918 | fail |
+| Citeseer | 1 | 2.0 | 0.77209 | 0.77000 | 0.75804 | +0.01196 | fail |
+| Citeseer | 1 | 3.5 | 0.78669 | 0.84389 | 0.78242 | +0.05478 | pass |
+| BlogCatalog | 0 | 1.0 | 0.52451 | 0.62668 | 0.52157 | +0.08919 | pass |
+| BlogCatalog | 0 | 3.5 | 0.52846 | 0.87073 | 0.53257 | +0.33722 | pass |
+
+Low-budget failure can involve both information loss in randomized
+response and instability of the debiased-label training objective.

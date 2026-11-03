@@ -7,7 +7,9 @@
 2. Add an executable post-release data-path audit that fails if model
    code touches the original graph.
 3. Measure candidate-domain coverage and its effect on utility.
-4. Test performance under lower `epsilon` and lower prevalence.
+4. Separate low-budget information loss from debiased-label training
+   instability. Current `epsilon=1/2` probes show graph-dependent
+   boundaries.
 
 ## Threats to validity
 
