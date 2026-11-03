@@ -27,7 +27,7 @@ mechanism attribution.
 3. The binary context indicator is redundant.
 4. A row-shuffled topology placebo falls back to the public-only level.
 
-The next main configuration uses eight topology features:
+The confirmed main configuration uses eight topology features:
 
 ```text
 size + degree + overlap

@@ -74,8 +74,9 @@ Architecture and optimization:
 No private validation or test information is used for checkpoint
 selection.
 
-## Planned simplification
+## Confirmed simplification
 
 Mechanism ablations show that feature 8 is redundant. The next
-configuration therefore freezes topology columns `[0,1,2,3,4,5,6,7]`
-and must be reconfirmed before replacing the 9-feature results.
+configuration therefore freezes topology columns `[0,1,2,3,4,5,6,7]`.
+The 8-feature configuration passed all seven dataset/split gates and is
+now the current main configuration.

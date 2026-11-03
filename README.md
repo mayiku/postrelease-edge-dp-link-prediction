@@ -46,13 +46,13 @@ Median AUC over independent edge-DP releases:
 
 | Dataset | Split | Public only | Joint F3 | Topology placebo | Joint - placebo |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Cora | 0 | 0.7237 | 0.8326 | 0.7136 | +0.1182 |
-| Cora | 1 | 0.7023 | 0.8344 | 0.6923 | +0.1389 |
-| Cora | 2 | 0.7231 | 0.8364 | 0.7192 | +0.1187 |
-| Citeseer | 0 | 0.8152 | 0.8696 | 0.8107 | +0.0595 |
-| Citeseer | 1 | 0.7867 | 0.8440 | 0.7836 | +0.0550 |
-| Citeseer | 2 | 0.8114 | 0.8649 | 0.8127 | +0.0530 |
-| BlogCatalog | 0 | 0.5285 | 0.8652 | 0.5310 | +0.3348 |
+| Cora | 0 | 0.7237 | 0.8330 | 0.7144 | +0.1226 |
+| Cora | 1 | 0.7023 | 0.8334 | 0.6925 | +0.1376 |
+| Cora | 2 | 0.7231 | 0.8420 | 0.7168 | +0.1247 |
+| Citeseer | 0 | 0.8152 | 0.8679 | 0.8103 | +0.0555 |
+| Citeseer | 1 | 0.7867 | 0.8439 | 0.7824 | +0.0548 |
+| Citeseer | 2 | 0.8114 | 0.8643 | 0.8129 | +0.0519 |
+| BlogCatalog | 0 | 0.5285 | 0.8707 | 0.5326 | +0.3372 |
 
 The joint model beats the public-only and placebo models in all
 `70 / 70` measured releases across these seven dataset/split settings.
@@ -87,7 +87,7 @@ Findings:
 - Removing the context indicator `[8]` does not hurt and can slightly
   improve results.
 
-The next frozen configuration will use the 8-dimensional topology
+The confirmed current configuration uses the 8-dimensional topology
 block `[0,1,2,3,4,5,6,7]`.
 
 ## Privacy scope
@@ -137,9 +137,8 @@ artifacts are not redistributed in this repository.
 
 ## Next steps
 
-1. Reconfirm the 8-feature topology block across all seven settings.
-2. Compare against DPLP and PriDyG under a common measurement protocol.
-3. Audit the post-release data path so production code cannot read the
+1. Compare against DPLP and PriDyG under a common measurement protocol.
+2. Audit the post-release data path so production code cannot read the
    raw graph.
-4. Complete the research proposal after the baseline and privacy
+3. Complete the research proposal after the baseline and privacy
    closure are stable.

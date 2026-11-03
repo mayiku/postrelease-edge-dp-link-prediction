@@ -8,22 +8,23 @@ BlogCatalog uses 5 releases.
 
 | Dataset | Split | Public | Joint | Placebo | Joint-public | Joint-placebo |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Cora | 0 | 0.72365 | 0.83255 | 0.71364 | +0.11104 | +0.11820 |
-| Cora | 1 | 0.70226 | 0.83443 | 0.69233 | +0.13327 | +0.13891 |
-| Cora | 2 | 0.72313 | 0.83641 | 0.71921 | +0.11625 | +0.11875 |
-| Citeseer | 0 | 0.81520 | 0.86959 | 0.81073 | +0.05599 | +0.05950 |
-| Citeseer | 1 | 0.78669 | 0.84400 | 0.78361 | +0.05507 | +0.05500 |
-| Citeseer | 2 | 0.81144 | 0.86492 | 0.81269 | +0.05392 | +0.05300 |
-| BlogCatalog | 0 | 0.52846 | 0.86524 | 0.53097 | +0.33710 | +0.33476 |
+| Cora | 0 | 0.72365 | 0.83298 | 0.71442 | +0.11202 | +0.12262 |
+| Cora | 1 | 0.70226 | 0.83339 | 0.69253 | +0.13316 | +0.13760 |
+| Cora | 2 | 0.72313 | 0.84204 | 0.71684 | +0.11809 | +0.12474 |
+| Citeseer | 0 | 0.81520 | 0.86785 | 0.81026 | +0.05195 | +0.05549 |
+| Citeseer | 1 | 0.78669 | 0.84389 | 0.78242 | +0.05414 | +0.05478 |
+| Citeseer | 2 | 0.81144 | 0.86431 | 0.81289 | +0.05448 | +0.05190 |
+| BlogCatalog | 0 | 0.52846 | 0.87073 | 0.53257 | +0.34259 | +0.33722 |
 
-Joint beats public-only and placebo in `70 / 70` releases.
+The current 8-dimensional topology configuration beats public-only and
+placebo in `70 / 70` releases.
 
 ## BlogCatalog confirmation
 
 ```text
-public median AP   = 0.01486
-joint median AP    = 0.25845
-placebo median AP  = 0.01506
+public median AP   = 0.01441
+joint median AP    = 0.26248
+placebo median AP  = 0.01530
 ```
 
 BlogCatalog was selected before observing edge-label utility and
