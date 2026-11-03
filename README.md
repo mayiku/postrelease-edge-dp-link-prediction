@@ -102,12 +102,32 @@ This project currently claims **edge-level DP only**:
 
 ## Repository contents
 
+- [`src/postrelease_lp.py`](src/postrelease_lp.py): minimal end-to-end
+  reproduction implementation.
+- [`docs/reproduce.md`](docs/reproduce.md): install and run commands.
 - [`docs/method.md`](docs/method.md): release interface and model.
 - [`docs/results.md`](docs/results.md): full result tables.
 - [`docs/privacy.md`](docs/privacy.md): threat model and accounting.
 - [`docs/mechanism.md`](docs/mechanism.md): ablations and interpretation.
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved work.
 - [`results/`](results/): compact, sanitized CSV results.
+
+## Quick start
+
+```bash
+pip install -r requirements.txt
+python -m unittest discover -s tests -v
+python -m src.postrelease_lp \
+  --dataset cora \
+  --data /path/to/cora.mat \
+  --split-salt 2 \
+  --release-draws 10 \
+  --topology-dimension 8 \
+  --output outputs/cora_split2.json
+```
+
+The implementation defaults to the simplified 8-dimensional topology
+block identified by the mechanism ablation.
 
 ## Data
 
