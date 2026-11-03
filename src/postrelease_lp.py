@@ -461,6 +461,27 @@ def summarize(values: list[float]) -> dict[str, float]:
     }
 
 
+def audit_workload(
+    workload: dict[str, list[Edge]],
+    release_candidates: list[Edge],
+) -> dict[str, object]:
+    train = set(workload["train"])
+    valid = set(workload["valid"])
+    test = set(workload["test"])
+    release = set(release_candidates)
+    return {
+        "train_test_intersection": len(train & test),
+        "train_valid_intersection": len(train & valid),
+        "valid_test_intersection": len(valid & test),
+        "train_candidates_in_release_domain": len(train & release),
+        "test_candidates_in_release_domain": len(test & release),
+        "train_target_count": len(train),
+        "test_target_count": len(test),
+        "training_label_source": "released_graph_train_bits",
+        "test_target_bits_used_for_training": False,
+    }
+
+
 def privacy_metadata(
     epsilon: float,
     label_mode: str,
@@ -516,6 +537,13 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         ]
         for name in ("train", "valid", "test")
     }
+    workload_audit = audit_workload(workload, release_candidates)
+    if (
+        workload_audit["train_test_intersection"] != 0
+        or workload_audit["train_valid_intersection"] != 0
+        or workload_audit["valid_test_intersection"] != 0
+    ):
+        raise AssertionError("target workload splits overlap")
     true_labels = {
         name: np.asarray(
             [pair in true_edges for pair in values],
@@ -698,6 +726,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "selection": args.selection,
         "label_mode": args.label_mode,
         "privacy": privacy_metadata(args.epsilon, args.label_mode),
+        "workload_audit": workload_audit,
         "label_counts": {
             name: {
                 "total": int(len(values)),

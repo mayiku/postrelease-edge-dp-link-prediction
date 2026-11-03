@@ -6,6 +6,7 @@ import unittest
 import numpy as np
 
 from src.postrelease_lp import (
+    audit_workload,
     canonical,
     posterior_and_weights,
     privacy_metadata,
@@ -56,6 +57,21 @@ class CoreTests(unittest.TestCase):
     def test_true_label_diagnostic_has_no_privacy_claim(self) -> None:
         metadata = privacy_metadata(3.5, "true")
         self.assertEqual(metadata["privacy_claim"], "none")
+
+    def test_workload_audit_reports_disjoint_splits(self) -> None:
+        workload = {
+            "train": [(0, 1)],
+            "valid": [(0, 2)],
+            "test": [(1, 2)],
+        }
+        metadata = audit_workload(
+            workload,
+            [(0, 1), (0, 2), (1, 2), (2, 3)],
+        )
+        self.assertEqual(metadata["train_test_intersection"], 0)
+        self.assertEqual(metadata["train_valid_intersection"], 0)
+        self.assertEqual(metadata["valid_test_intersection"], 0)
+        self.assertFalse(metadata["test_target_bits_used_for_training"])
 
 
 if __name__ == "__main__":
