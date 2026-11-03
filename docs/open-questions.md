@@ -16,6 +16,8 @@
 - The current positive results use a relatively large `epsilon=3.5`.
 - Relative low-budget gains are not enough; future gates must include a
   minimum absolute utility threshold.
+- Shrinking the public release domain improved relative lift but not
+  usable absolute utility at `epsilon=1`.
 - The public candidate domain can exclude many graph edges.
 - Cora and Citeseer splits were used during exploratory development.
   BlogCatalog is the first untouched graph, but it is one additional

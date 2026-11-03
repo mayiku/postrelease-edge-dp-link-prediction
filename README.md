@@ -82,6 +82,10 @@ released topology adds almost no signal on Cora/Citeseer. BlogCatalog
 retains structural signal. Low-budget failure is therefore primarily
 information loss, not only checkpoint selection.
 
+Shrinking the release domain also does not restore usable utility:
+Cora at `epsilon=1` has joint AUC about `0.487 / 0.455 / 0.367` for
+`U=50 / 100 / 200`, all below the pre-registered absolute floor.
+
 ## Why a learned post-release model?
 
 A fixed `0.75 * topology_rank + 0.25 * public_rank` fusion passed on

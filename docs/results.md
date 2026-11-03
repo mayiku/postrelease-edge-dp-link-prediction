@@ -85,3 +85,17 @@ At `epsilon=1`, Cora/Citeseer released topology has little useful
 structure even when target labels are supplied to the diagnostic.
 BlogCatalog still retains structure. The dominant low-budget failure
 is therefore information loss in the released graph.
+
+## Low-budget release-domain sweep
+
+Cora split 2 at `epsilon=1`, three releases per domain:
+
+| Release candidates/node | Public | Joint | Placebo | Joint-placebo |
+| ---: | ---: | ---: | ---: | ---: |
+| 50 | 0.29758 | 0.48692 | 0.31380 | +0.19635 |
+| 100 | 0.29324 | 0.45522 | 0.33154 | +0.12204 |
+| 200 | 0.29571 | 0.36747 | 0.33794 | +0.00662 |
+
+Smaller domains increase relative lift but fail the `0.65` absolute
+utility gate. Release-domain reduction alone does not solve the
+low-budget regime.

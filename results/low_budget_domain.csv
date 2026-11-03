@@ -1,0 +1,4 @@
+dataset,split,epsilon,release_candidates,releases,public_auc,joint_auc,placebo_auc,joint_minus_public,joint_minus_placebo,joint_above_placebo,absolute_gate
+cora,2,1.0,50,3,0.297578,0.486920,0.313803,0.199689,0.196354,3,fail
+cora,2,1.0,100,3,0.293242,0.455216,0.331536,0.159525,0.122045,3,fail
+cora,2,1.0,200,3,0.295715,0.367474,0.337938,0.074399,0.006623,2,fail
