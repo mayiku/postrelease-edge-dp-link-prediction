@@ -1,0 +1,4 @@
+dataset,split,seeds,public_auc,private_topology_reference_auc,post_release_joint_auc
+cora,2,3,0.728965632,0.856045829,0.842039139
+citeseer,1,3,0.789324819,0.812507210,0.843892893
+blogcatalog,0,3,0.532501809,0.881627108,0.870728921

@@ -45,6 +45,17 @@ python -m src.postrelease_lp ... --label-mode true
 
 `--label-mode true` is diagnostic only and is not a private method.
 
+Private-topology reference:
+
+```bash
+python -m scripts.private_topology_upper_bound \
+  --dataset cora \
+  --data /path/to/cora.mat \
+  --split-salt 2 \
+  --seeds 13000 13101 13202 \
+  --output outputs/private_cora.json
+```
+
 ## Tests
 
 ```bash

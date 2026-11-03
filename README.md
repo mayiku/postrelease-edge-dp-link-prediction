@@ -86,6 +86,20 @@ Shrinking the release domain also does not restore usable utility:
 Cora at `epsilon=1` has joint AUC about `0.487 / 0.455 / 0.367` for
 `U=50 / 100 / 200`, all below the pre-registered absolute floor.
 
+## Private-topology reference
+
+A nonprivate reference computes the same 8 topology features from the
+full private graph and trains F3 with true labels:
+
+| Dataset | Public | Private-topology reference | Post-release joint |
+| --- | ---: | ---: | ---: |
+| Cora split 2 | 0.7290 | 0.8560 | 0.8420 |
+| Citeseer split 1 | 0.7893 | 0.8125 | 0.8439 |
+| BlogCatalog | 0.5325 | 0.8816 | 0.8707 |
+
+This is a reference, not a strict upper bound: released labels and
+released topology induce a different training geometry.
+
 ## Why a learned post-release model?
 
 A fixed `0.75 * topology_rank + 0.25 * public_rank` fusion passed on
@@ -129,11 +143,15 @@ This project currently claims **edge-level DP only**:
 
 - [`src/postrelease_lp.py`](src/postrelease_lp.py): minimal end-to-end
   reproduction implementation.
+- [`scripts/private_topology_upper_bound.py`](scripts/private_topology_upper_bound.py):
+  nonprivate same-statistic reference.
 - [`docs/reproduce.md`](docs/reproduce.md): install and run commands.
 - [`docs/method.md`](docs/method.md): release interface and model.
 - [`docs/results.md`](docs/results.md): full result tables.
 - [`docs/privacy.md`](docs/privacy.md): threat model and accounting.
 - [`docs/mechanism.md`](docs/mechanism.md): ablations and interpretation.
+- [`docs/baselines.md`](docs/baselines.md): DPLP/PriDyG comparability
+  status.
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved work.
 - [`results/`](results/): compact, sanitized CSV results.
 

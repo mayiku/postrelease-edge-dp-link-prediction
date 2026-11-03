@@ -3,7 +3,9 @@
 ## Must resolve before a proposal
 
 1. Compare against DPLP and PriDyG under a common workload, privacy
-   unit, and evaluation protocol.
+   unit, and evaluation protocol. PriDyG has no public implementation
+   in the checked surface; any DPLP adaptation must be labelled
+   DPLP-style rather than official.
 2. Add an executable post-release data-path audit that fails if model
    code touches the original graph.
 3. Measure candidate-domain coverage and its effect on utility.

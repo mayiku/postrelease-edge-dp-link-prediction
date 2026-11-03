@@ -99,3 +99,17 @@ Cora split 2 at `epsilon=1`, three releases per domain:
 Smaller domains increase relative lift but fail the `0.65` absolute
 utility gate. Release-domain reduction alone does not solve the
 low-budget regime.
+
+## Private-topology reference
+
+The reference uses the full private graph and true labels, but the same
+public workload and 8-dimensional topology statistics.
+
+| Dataset | Split | Public | Private-topology reference | Post-release joint |
+| --- | ---: | ---: | ---: | ---: |
+| Cora | 2 | 0.72897 | 0.85605 | 0.84204 |
+| Citeseer | 1 | 0.78932 | 0.81251 | 0.84389 |
+| BlogCatalog | 0 | 0.53250 | 0.88163 | 0.87073 |
+
+The reference is not a strict upper bound because the post-release
+model uses released labels and a different feature geometry.
