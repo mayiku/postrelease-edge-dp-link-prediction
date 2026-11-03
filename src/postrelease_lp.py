@@ -452,6 +452,14 @@ def metrics(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
     }
 
 
+def rank01(values: np.ndarray) -> np.ndarray:
+    ranks = np.argsort(
+        np.argsort(values, kind="stable"),
+        kind="stable",
+    ).astype(np.float64)
+    return ranks / max(len(ranks) - 1, 1)
+
+
 def summarize(values: list[float]) -> dict[str, float]:
     array = np.asarray(values, dtype=np.float64)
     return {
@@ -625,6 +633,19 @@ def run(args: argparse.Namespace) -> dict[str, object]:
                 valid_bits,
                 args.epsilon,
             )
+        p = math.exp(args.epsilon) / (1.0 + math.exp(args.epsilon))
+        q = 1.0 / (1.0 + math.exp(args.epsilon))
+        signed_train = 2.0 * (
+            (train_bits - q) / (p - q)
+        ) - 1.0
+        centroid = (
+            signed_train[:, None] * topology["train"]
+        ).mean(axis=0)
+        topology_test = topology["test"] @ centroid
+        fixed_fusion_scores = (
+            0.75 * rank01(topology_test)
+            + 0.25 * rank01(public["test"][:, -3])
+        )
         joint = {
             name: np.concatenate(
                 [public[name], topology[name]],
@@ -702,6 +723,10 @@ def run(args: argparse.Namespace) -> dict[str, object]:
             "release_edges": len(released),
             "denoised_edges": len(denoised),
             "public": metrics(public_scores, true_labels["test"]),
+            "fixed_fusion": metrics(
+                fixed_fusion_scores,
+                true_labels["test"],
+            ),
             "joint": metrics(joint_scores, true_labels["test"]),
             "placebo": metrics(placebo_scores, true_labels["test"]),
         }
@@ -712,6 +737,10 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         run_result["joint_minus_placebo"] = (
             run_result["joint"]["auc"]
             - run_result["placebo"]["auc"]
+        )
+        run_result["joint_minus_fixed_fusion"] = (
+            run_result["joint"]["auc"]
+            - run_result["fixed_fusion"]["auc"]
         )
         runs.append(run_result)
         print(json.dumps(run_result, ensure_ascii=False), flush=True)
@@ -747,7 +776,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
                     ]
                 ),
             }
-            for model in ("public", "joint", "placebo")
+            for model in ("public", "fixed_fusion", "joint", "placebo")
         }
         | {
             "joint_minus_public": summarize(
@@ -756,9 +785,18 @@ def run(args: argparse.Namespace) -> dict[str, object]:
             "joint_minus_placebo": summarize(
                 [run["joint_minus_placebo"] for run in runs]
             ),
+            "joint_minus_fixed_fusion": summarize(
+                [run["joint_minus_fixed_fusion"] for run in runs]
+            ),
             "joint_above_placebo": int(
                 sum(
                     run["joint_minus_placebo"] > 0
+                    for run in runs
+                )
+            ),
+            "joint_above_fixed_fusion": int(
+                sum(
+                    run["joint_minus_fixed_fusion"] > 0
                     for run in runs
                 )
             ),
