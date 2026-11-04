@@ -9,6 +9,8 @@ Completed: P1 confirmation on fresh Cora/Citeseer salt-3 splits passed
    unit, and evaluation protocol. PriDyG has no public implementation
    in the checked surface; any DPLP adaptation must be labelled
    DPLP-style rather than official.
+   The current DPLP-style nonprivate adapter lacks headroom against the
+   public-only baseline, so its DP version is not prioritized.
 2. Split release/training/evaluation into separate processes whose file
    permissions enforce the post-release boundary. Current output-level
    workload and label-source audits pass, but the implementation still

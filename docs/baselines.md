@@ -29,6 +29,24 @@ If adapted, the baseline will be named `DPLP-style` and will document:
 Published AUC values from a different dataset or workload will not be
 inserted into a common table.
 
+### DPLP-style nonprivate headroom gate
+
+A SEAL/DPLP-style path-2 GCN adapter was run for three seeds and 50
+epochs on the fresh salt-3 splits.
+
+| Dataset | Random-negative AUC median | Hard-negative AUC median | P1 public-only |
+| --- | ---: | ---: | ---: |
+| Cora | 0.7370 | 0.7095 | 0.7409 |
+| Citeseer | 0.7203 | 0.7084 | 0.8266 |
+
+The nonprivate adapter does not beat the public-only baseline on either
+split. Therefore a DP version of this adapter is not a priority: noise
+can only reduce its headroom further.
+
+This is not a negative result about the official DPLP paper. It is a
+negative result about this workload-specific adapter. Official DPLP
+must still be reproduced on its native datasets as a separate table.
+
 ## Implemented references
 
 - public feature-only F3;
