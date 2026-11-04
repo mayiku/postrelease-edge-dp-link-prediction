@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements-train.txt .
+RUN pip install --no-cache-dir -r requirements-train.txt
+
+COPY src/__init__.py src/artifacts.py src/postrelease_core.py ./src/
+COPY scripts/train_postrelease.py ./scripts/
+
+RUN test ! -e /app/src/postrelease_lp.py \
+    && test ! -e /app/src/raw_graph.py \
+    && test ! -e /app/scripts/release_graph.py
+
+ENTRYPOINT ["python", "/app/scripts/train_postrelease.py"]

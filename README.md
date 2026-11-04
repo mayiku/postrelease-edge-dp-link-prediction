@@ -168,6 +168,8 @@ This project currently claims **edge-level DP only**:
 - [`scripts/evaluate.py`](scripts/evaluate.py): trusted evaluator phase.
 - [`scripts/run_separated.py`](scripts/run_separated.py): runs all
   three phases as separate subprocesses.
+- [`Dockerfile.train`](Dockerfile.train): trainer image containing no
+  raw graph loader or release implementation.
 - [`docs/reproduce.md`](docs/reproduce.md): install and run commands.
 - [`docs/method.md`](docs/method.md): release interface and model.
 - [`docs/pipelines.md`](docs/pipelines.md): versioned result semantics
@@ -184,6 +186,9 @@ The AST-based import-boundary test rejects a training dependency chain
 that reaches `src.postrelease_lp`, `src.raw_graph`,
 `load_graph_data`, `graph_edges`, `scipy.io`, or `loadmat`. GitHub
 Actions runs this check on every push and pull request.
+
+The CI also builds `Dockerfile.train` and asserts that raw graph modules
+are physically absent from the trainer image.
 
 ## Quick start
 
