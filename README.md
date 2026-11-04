@@ -157,6 +157,8 @@ This project currently claims **edge-level DP only**:
 
 - [`src/postrelease_lp.py`](src/postrelease_lp.py): minimal end-to-end
   reproduction implementation.
+- [`src/postrelease_core.py`](src/postrelease_core.py): pure
+  post-processing operations with no graph-file access.
 - [`scripts/private_topology_upper_bound.py`](scripts/private_topology_upper_bound.py):
   nonprivate same-statistic reference.
 - [`scripts/release_graph.py`](scripts/release_graph.py): private-data
@@ -177,6 +179,11 @@ This project currently claims **edge-level DP only**:
   status.
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved work.
 - [`results/`](results/): compact, sanitized CSV results.
+
+The AST-based import-boundary test rejects a training dependency chain
+that reaches `src.postrelease_lp`, `src.raw_graph`,
+`load_graph_data`, `graph_edges`, `scipy.io`, or `loadmat`. GitHub
+Actions runs this check on every push and pull request.
 
 ## Quick start
 

@@ -16,8 +16,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.artifacts import array_edges, read_artifact  # noqa: E402
-from src.postrelease_lp import (  # noqa: E402
-    metrics,
+from src.postrelease_core import (  # noqa: E402
     posterior_and_weights,
     rank01,
     topology_features,

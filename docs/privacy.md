@@ -73,3 +73,8 @@ evaluate.py
 release artifact records epsilon, delta, p, q, the release seed, the
 candidate-domain size, and the train/validation/test intersection
 audit.
+
+The CI boundary test recursively parses the training import graph. It
+fails if the graph reaches `src.postrelease_lp`, `src.raw_graph`,
+defines/imports `load_graph_data` or `graph_edges`, or mentions
+`scipy.io`/`loadmat`.
