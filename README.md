@@ -159,6 +159,13 @@ This project currently claims **edge-level DP only**:
   reproduction implementation.
 - [`scripts/private_topology_upper_bound.py`](scripts/private_topology_upper_bound.py):
   nonprivate same-statistic reference.
+- [`scripts/release_graph.py`](scripts/release_graph.py): private-data
+  release phase.
+- [`scripts/train_postrelease.py`](scripts/train_postrelease.py):
+  artifact-only training phase.
+- [`scripts/evaluate.py`](scripts/evaluate.py): trusted evaluator phase.
+- [`scripts/run_separated.py`](scripts/run_separated.py): runs all
+  three phases as separate subprocesses.
 - [`docs/reproduce.md`](docs/reproduce.md): install and run commands.
 - [`docs/method.md`](docs/method.md): release interface and model.
 - [`docs/pipelines.md`](docs/pipelines.md): versioned result semantics

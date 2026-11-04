@@ -56,6 +56,20 @@ python -m scripts.private_topology_upper_bound \
   --output outputs/private_cora.json
 ```
 
+Separated pipeline:
+
+```bash
+python scripts/run_separated.py \
+  --data /path/to/cora.mat \
+  --dataset cora \
+  --split-salt 3 \
+  --draw 0 \
+  --workdir outputs/separated_cora
+```
+
+This invokes release, artifact-only training, and trusted evaluation as
+three separate subprocesses.
+
 ## Tests
 
 ```bash

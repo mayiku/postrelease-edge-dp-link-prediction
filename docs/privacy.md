@@ -53,3 +53,23 @@ After release, the training and prediction path must not read:
 
 Test labels may only be used by the trusted evaluator after predictions
 are fixed.
+
+## Separated interfaces
+
+The reproduction package provides:
+
+```text
+release_graph.py
+  raw private graph -> release artifact
+
+train_postrelease.py
+  release artifact only -> scores
+
+evaluate.py
+  scores + private test labels -> metrics
+```
+
+`train_postrelease.py` intentionally has no raw-data CLI argument. The
+release artifact records epsilon, delta, p, q, the release seed, the
+candidate-domain size, and the train/validation/test intersection
+audit.
