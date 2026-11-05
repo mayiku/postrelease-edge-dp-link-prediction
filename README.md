@@ -230,19 +230,3 @@ block identified by the mechanism ablation.
 Experiments use public link-prediction datasets distributed with SEAL:
 Cora, Citeseer, and BlogCatalog. Raw datasets and machine-specific
 artifacts are not redistributed in this repository.
-
-## Next steps
-
-1. Treat the current four-way novelty matrix as a scoped comparison,
-   not a complete novelty clearance; EdgeRefine, PGB, CF-DPGNN,
-   DP-MuLP, and other private-release work still require final
-   positioning in the proposal.
-2. Explain the transductive graph-release evaluation semantics: test
-   pair bits are not training labels, but they are part of the DP
-   output available to post-processing.
-3. Keep the claim inside the tested regime: public target workload,
-   top-20/top-400 public candidate domains, epsilon=3.5, and static
-   graphs.
-4. Extend the native DPLP audit only if the unreleased processed
-   artifacts become available; PriDyG remains blocked on a public
-   implementation.
