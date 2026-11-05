@@ -4,6 +4,11 @@ All values are medians over independent edge-DP releases. The
 six-dataset/split Cora-Citeseer runs use 10 releases each.
 BlogCatalog uses 5 releases.
 
+The native DPLP reproduction uses different datasets and a different
+interface. It is reported separately in
+[`dplp-native-reproduction.md`](dplp-native-reproduction.md) and
+[`../results/dplp_native.csv`](../results/dplp_native.csv).
+
 ## Cross-split AUC
 
 | Dataset | Split | Public | Joint | Placebo | Joint-public | Joint-placebo |

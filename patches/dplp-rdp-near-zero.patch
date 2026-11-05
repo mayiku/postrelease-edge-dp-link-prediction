@@ -1,0 +1,15 @@
+diff --git a/privacy_analysis/RDP/rdp_convert_dp.py b/privacy_analysis/RDP/rdp_convert_dp.py
+index 55c5c23..62cc20c 100644
+--- a/privacy_analysis/RDP/rdp_convert_dp.py
++++ b/privacy_analysis/RDP/rdp_convert_dp.py
+@@ -37,6 +37,10 @@ def compute_eps(orders, rdp, delta):
+   eps_vec = []
+   for (a, r) in zip(orders_vec, rdp_vec):
+     if a < 1:
+       raise ValueError("Renyi divergence order must be >=1.")
++    # The original implementation rejects tiny negative round-off errors
++    # produced by the high-sigma initialisation of its binary search.
++    if -1e-8 < r < 0:
++      r = 0.0
+     if r < 0:
+       raise ValueError("Renyi divergence must be >=0.")

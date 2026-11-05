@@ -11,13 +11,16 @@ Status: **not directly runnable**.
 
 ## DPLP
 
-The official code is public, but its released experiment pipeline
-targets USAir, Celegans, Yeast, and PB and requires its own processed
-split and dependency setup. The current project uses public
-Cora/Citeseer/BlogCatalog target workloads and an edge-DP graph-release
-interface.
+The official code is public and targets USAir, Celegans, Yeast, and PB.
+The repository does not include its generated split or training
+matrices. A protocol-equivalent native reconstruction was run on those
+four datasets and is reported separately in
+[`dplp-native-reproduction.md`](dplp-native-reproduction.md). Those
+numbers are not mixed with the Cora/Citeseer/BlogCatalog post-release
+table.
 
-Status: **not directly comparable without adaptation**.
+Status: **native datasets independently rerun; not directly comparable
+to the post-release interface without adaptation**.
 
 If adapted, the baseline will be named `DPLP-style` and will document:
 
@@ -44,8 +47,9 @@ split. Therefore a DP version of this adapter is not a priority: noise
 can only reduce its headroom further.
 
 This is not a negative result about the official DPLP paper. It is a
-negative result about this workload-specific adapter. Official DPLP
-must still be reproduced on its native datasets as a separate table.
+negative result about this workload-specific adapter. The separate
+native reproduction is reported in
+[`dplp-native-reproduction.md`](dplp-native-reproduction.md).
 
 ## Implemented references
 

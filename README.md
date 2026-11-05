@@ -168,6 +168,10 @@ This project currently claims **edge-level DP only**:
 - [`scripts/evaluate.py`](scripts/evaluate.py): trusted evaluator phase.
 - [`scripts/run_separated.py`](scripts/run_separated.py): runs all
   three phases as separate subprocesses.
+- [`scripts/summarize_dplp_native.py`](scripts/summarize_dplp_native.py):
+  converts native DPLP result directories into the separate CSV table.
+- [`patches/dplp-rdp-near-zero.patch`](patches/dplp-rdp-near-zero.patch):
+  numerical guard used only for the native DPLP reproduction.
 - [`Dockerfile.train`](Dockerfile.train): trainer image containing no
   raw graph loader or release implementation.
 - [`docs/reproduce.md`](docs/reproduce.md): install and run commands.
@@ -179,12 +183,18 @@ This project currently claims **edge-level DP only**:
 - [`docs/mechanism.md`](docs/mechanism.md): ablations and interpretation.
 - [`docs/baselines.md`](docs/baselines.md): DPLP/PriDyG comparability
   status.
+- [`docs/dplp-native-reproduction.md`](docs/dplp-native-reproduction.md):
+  separate native DPLP table and reproducibility audit.
 - [`docs/related-work.md`](docs/related-work.md): task/interface/scope
   comparison with DPLP, PrivIM, and PriDyG.
 - [`docs/novelty-matrix.md`](docs/novelty-matrix.md): one-page novelty
   and reproducibility matrix.
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved work.
 - [`results/`](results/): compact, sanitized CSV results.
+
+The DPLP native reproduction is stored separately in
+[`results/dplp_native.csv`](results/dplp_native.csv). It is not mixed
+with the Cora/Citeseer/BlogCatalog post-release table.
 
 The AST-based import-boundary test rejects a training dependency chain
 that reaches `src.postrelease_lp`, `src.raw_graph`,
@@ -219,7 +229,9 @@ artifacts are not redistributed in this repository.
 
 ## Next steps
 
-1. Compare against DPLP and PriDyG under a common measurement protocol.
+1. Extend the native DPLP audit only if the unreleased processed
+   artifacts become available; PriDyG remains blocked on a public
+   implementation.
 2. Audit the post-release data path so production code cannot read the
    raw graph.
 3. Separate low-budget information loss from training instability.
