@@ -69,3 +69,22 @@ returns a node-private influence selector; PriDyG exposes a private
 streaming inference service. These differences must remain explicit in
 the proposal.
 
+## Additional adjacent work not in the four-way matrix
+
+The requested novelty matrix covers DPLP, PrivIM, and PriDyG. It is not
+a complete literature clearance.
+
+- **EdgeRefine** already combines local edge-LDP randomized response,
+  Jaccard-based filtering, private graph release, and downstream GNN
+  training. The remaining distinctions are central versus local DP,
+  public-workload-conditioned release, and learned post-release F3.
+- **PGB** studies one-shot private graph generation for multiple
+  queries, so "release once and reuse" is not new by itself.
+- **CF-DPGNN** and **DP-MuLP** are close edge-private link-prediction
+  systems, but only abstract-level evidence is currently available.
+- **AdvSGM** and older private graph-release work already cover
+  reusable private representations for downstream predictions.
+
+The proposal must therefore claim a specific interface and mechanism,
+not first private graph release or first post-release link prediction.
+

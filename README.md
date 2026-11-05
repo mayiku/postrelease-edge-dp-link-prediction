@@ -68,8 +68,10 @@ Fresh, pre-registered splits with 100 releases each:
 
 Joint beat public-only, matched fixed fusion, and placebo in
 `100 / 100` releases on both datasets. Workload train/valid/test
-intersections were zero, and test target bits were not used in F3
-training.
+intersections were zero, and test-pair membership was not used as an
+F3 training label. Test-pair randomized-response bits remain part of
+the published `G_DP` and may enter public post-processing; this is a
+graph-release benchmark, not an inductive unseen-edge service.
 
 The public features alone are weak on BlogCatalog (`AUC 0.5285`) but
 strong on Citeseer (`AUC 0.7867-0.8152`). The released topology adds
@@ -190,6 +192,8 @@ This project currently claims **edge-level DP only**:
 - [`docs/novelty-matrix.md`](docs/novelty-matrix.md): one-page novelty
   and reproducibility matrix.
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved work.
+- [`docs/evidence-audit.md`](docs/evidence-audit.md): final lock,
+  hash, pipeline-equivalence, and claim-scope audit.
 - [`results/`](results/): compact, sanitized CSV results.
 
 The DPLP native reproduction is stored separately in
@@ -229,11 +233,16 @@ artifacts are not redistributed in this repository.
 
 ## Next steps
 
-1. Extend the native DPLP audit only if the unreleased processed
+1. Treat the current four-way novelty matrix as a scoped comparison,
+   not a complete novelty clearance; EdgeRefine, PGB, CF-DPGNN,
+   DP-MuLP, and other private-release work still require final
+   positioning in the proposal.
+2. Explain the transductive graph-release evaluation semantics: test
+   pair bits are not training labels, but they are part of the DP
+   output available to post-processing.
+3. Keep the claim inside the tested regime: public target workload,
+   top-20/top-400 public candidate domains, epsilon=3.5, and static
+   graphs.
+4. Extend the native DPLP audit only if the unreleased processed
    artifacts become available; PriDyG remains blocked on a public
    implementation.
-2. Audit the post-release data path so production code cannot read the
-   raw graph.
-3. Separate low-budget information loss from training instability.
-4. Complete the research proposal after the baseline and privacy
-   closure are stable.

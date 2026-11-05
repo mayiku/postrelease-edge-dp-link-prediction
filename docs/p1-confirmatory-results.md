@@ -27,6 +27,12 @@ absolute AUC floor.
 - train/validation target intersections: `0`;
 - validation/test target intersections: `0`;
 - training labels: released train bits from `G_DP`;
-- test target bits used for training: `false`.
+- test-pair membership used as a training label: `false`.
 
 The complete lock was re-hashed after the run and passed.
+
+Post-lock interpretation: every randomized-response bit is part of
+the published graph output, including bits corresponding to test
+candidate pairs. The audit means that test-pair membership is not used
+as a training target; it does not mean that test-pair release bits are
+absent from global denoising or topology recomputation.

@@ -30,6 +30,13 @@ The F3 model's training bits are obtained by querying
 second label-release mechanism. The output metadata records the label
 source and a post-processing epsilon of zero.
 
+The release domain contains train, validation, and test candidate
+pairs. Test-pair membership is not used as an F3 training label, but
+the corresponding randomized-response bits are part of `G_DP` and can
+affect global denoising that is visible to ordinary DP
+post-processing. The pipeline therefore evaluates a reusable graph
+release, not an inductive service that withholds test-pair bits.
+
 If a standalone label-RR model releases training labels separately,
 that is a different scenario and must not be added to the graph-release
 pipeline unless both outputs are actually published and jointly

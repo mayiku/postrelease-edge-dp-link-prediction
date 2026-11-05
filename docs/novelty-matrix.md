@@ -3,6 +3,10 @@
 One-page scope comparison. Entries describe what each system actually
 releases or answers; they are not a common-budget leaderboard.
 
+This is the requested four-system matrix, not a complete novelty
+clearance. In particular, EdgeRefine, PGB, CF-DPGNN, and DP-MuLP are
+additional adjacent systems discussed in `related-work.md`.
+
 | Work | Task | Privacy model | Interface type | Datasets | Reproducibility status |
 | --- | --- | --- | --- | --- | --- |
 | **This work (P1)** | Link prediction after one private graph release; public target workload `top-20` features and release domain `top-400` | Edge-level `(epsilon, delta)`; main P1 release uses `epsilon=3.5, delta=0`; downstream F3 training is post-processing | One-shot released graph over a public candidate domain, then public-feature + released-topology training and pair ranking | Cora and Citeseer (confirmatory); BlogCatalog (exploratory) | Public code, frozen P1 protocol, isolation audits, 100-release confirmatory CSVs, and CI boundary checks |
@@ -12,8 +16,9 @@ releases or answers; they are not a common-budget leaderboard.
 
 ## What is actually new here
 
-The novelty is not the invention of edge-level DP, randomized
-response, or post-processing. It is the release-first interface:
+The candidate novelty is not the invention of edge-level DP,
+randomized response, post-processing, or release-once reuse. It is the
+following specific composition:
 
 1. the private graph is queried once on a public candidate domain;
 2. the resulting edge-DP release is reusable by later models;
@@ -24,7 +29,8 @@ response, or post-processing. It is the release-first interface:
 
 This differs from direct private model training (DPLP), node-private
 influence selection (PrivIM), and a dynamic private inference service
-(PriDyG).
+(PriDyG), but it still requires final differentiation from EdgeRefine
+and PGB before the proposal claims novelty.
 
 ## What is not claimed
 
