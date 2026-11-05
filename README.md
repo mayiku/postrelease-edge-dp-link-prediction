@@ -179,6 +179,10 @@ This project currently claims **edge-level DP only**:
 - [`docs/mechanism.md`](docs/mechanism.md): ablations and interpretation.
 - [`docs/baselines.md`](docs/baselines.md): DPLP/PriDyG comparability
   status.
+- [`docs/related-work.md`](docs/related-work.md): task/interface/scope
+  comparison with DPLP, PrivIM, and PriDyG.
+- [`docs/novelty-matrix.md`](docs/novelty-matrix.md): one-page novelty
+  and reproducibility matrix.
 - [`docs/open-questions.md`](docs/open-questions.md): unresolved work.
 - [`results/`](results/): compact, sanitized CSV results.
 
